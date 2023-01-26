@@ -5,18 +5,23 @@ import hero from '../../images/Hero_Image.jpeg'
 
 const Header = () => {
 
-    const [name, setName] = useState('')
-    const [imgLink, setImgLink] = useState('')
+  const [name, setName] = useState('')
+  const [imgLink, setImgLink] = useState('')
+  const [announcement, setAnnouncement] = useState('')
 
-    useEffect(() => {
-        setName('Graham')
-        setImgLink(hero)
-    }, [])
+  useEffect(() => {
+      setName('Graham')
+      setImgLink(hero)
+      setAnnouncement('Announcement')
+  }, [])
 
   return (
     <header>
         <img src={imgLink} alt='hero'/>
-        <h1>{name}</h1>
+        <section>
+          <h1>{name}</h1>
+          <p>{announcement}</p>
+        </section>
     </header>
   )
 }

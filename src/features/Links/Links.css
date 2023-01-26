@@ -23,6 +23,6 @@ main ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 100%;
     height: 4rem;
 }
