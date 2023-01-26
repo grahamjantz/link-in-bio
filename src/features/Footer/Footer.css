@@ -1,6 +1,10 @@
 footer {
     width: 90%;
     height: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 footer ul {
@@ -10,4 +14,20 @@ footer ul {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 3rem;
+}
+
+footer ul li a {
+    color: white !important;
+}
+
+footer > a {
+    font-size: 1rem;
+}
+
+footer > a > button {
+    height: fit-content;
+    width: fit-content;
+    padding: 0.5rem;
+    background-color: none;
 }

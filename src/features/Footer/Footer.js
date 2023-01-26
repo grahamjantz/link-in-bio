@@ -12,25 +12,25 @@ const Footer = () => {
   useEffect(() => {
     setSocialMediaLinks([
       {
-        icon: FaFacebook,
+        icon: <FaFacebook />,
         href: "/",
         id: generateId(),
         visible: true
       },
       {
-        icon: "I",
+        icon: <FaInstagram />,
         href: "/",
         id: generateId(),
         visible: true
       },
       {
-        icon: "T",
+        icon: <FaTwitter />,
         href: "/",
         id: generateId(),
         visible: true
       },
       {
-        icon: "Y",
+        icon: <FaYoutube />,
         href: "/",
         id: generateId(),
         visible: true
@@ -56,6 +56,9 @@ const Footer = () => {
           })
         ) : ''}
       </ul>
+      <a href="/">
+        <button>admin login</button>
+      </a>
     </footer>
   )
 }

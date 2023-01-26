@@ -22,8 +22,17 @@ code {
   box-sizing: border-box;
 }
 
+button {
+  border-color: rgba(58, 58, 58, 0.308);
+  border-radius: 3px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(121, 121, 121, 0.527);
+}
+
 #root {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }

@@ -23,7 +23,6 @@ main ul li {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid red;
     width: 90%;
     height: 4rem;
 }
