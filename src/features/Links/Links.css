@@ -1,0 +1,29 @@
+main {
+    width: 90%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+main ul {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+}
+
+main ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid red;
+    width: 90%;
+    height: 4rem;
+}
