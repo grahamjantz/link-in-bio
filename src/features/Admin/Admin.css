@@ -1,0 +1,89 @@
+.admin {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-size: 2rem;
+}
+
+.admin header {
+    width: 100%;
+}
+
+.admin header section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin header svg:hover {
+    cursor: pointer;
+}
+
+.admin form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin input {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 1rem;   
+}
+
+.admin input::placeholder {
+    color: rgba(255, 255, 255, 0.521);
+}
+
+.admin form input[type=submit] {
+    border: none;
+    background-color: var(--main-submit-blue);
+}
+
+.admin form input[type=submit]:hover {
+    cursor: pointer;
+}
+
+.add-link {
+    width: 100%;
+    background-color: rgba(121, 121, 121, 0.527);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(58, 58, 58, 0.308);
+    padding: 1rem;
+}
+
+.add-link button {
+    background-color: var(--main-submit-blue);
+    color: white;
+    border: none;
+    padding: 1rem;
+}
+
+.add-link button:hover {
+    cursor: pointer;
+}
+
+.admin ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.admin li {
+    width: 100%;
+}
+
+.admin button {
+    font-size: 2rem;
+}

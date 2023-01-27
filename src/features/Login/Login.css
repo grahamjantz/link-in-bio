@@ -1,23 +1,40 @@
 .login {
-    width: 100vw;
-    height: 100vh;
-    background-color: white;
+    margin-top: 15rem;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
     gap: 2rem;
+    color: white;
 }
 
 .login form {
-    width: 80%;
+    width: 90%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    background-color: rgba(102, 102, 102, 0.486);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(75, 75, 75, 0.87);
+    padding: 1rem;
 }
 
 .login input {
     font-size: 2rem;
     padding: 1rem;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white
+}
+
+.login input::placeholder {
+    color: white;
+}
+
+.login input[type=submit] {
+    background-color: var(--main-submit-blue);
+    border: none;
 }

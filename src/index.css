@@ -1,3 +1,7 @@
+:root {
+  --main-submit-blue: rgb(37, 107, 211);
+}
+
 html {
   font-size: 10px;
 }
