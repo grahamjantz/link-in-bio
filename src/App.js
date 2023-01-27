@@ -1,15 +1,19 @@
 import React from 'react';
+import { Route, Routes } from 'react-router';
 import './App.css';
-import Footer from './features/Footer/Footer';
-import Header from './features/Header/Header';
-import Links from './features/Links/Links';
+
+import Home from './features/Home/Home';
+import Login from './features/Login/Login';
+import SignUp from './features/SignUp/SignUp';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Links />
-      <Footer />
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/sign-up' element={<SignUp />}></Route>
+      </Routes> 
     </div>
   );
 }

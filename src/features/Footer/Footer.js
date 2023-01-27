@@ -4,10 +4,13 @@ import { generateId } from '../Links/Links'
 import "./Footer.css"
 
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube} from 'react-icons/fa'
+import { useNavigate } from 'react-router'
 
 const Footer = () => {
 
   const [socialMediaLinks, setSocialMediaLinks] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     setSocialMediaLinks([
@@ -38,6 +41,10 @@ const Footer = () => {
     ])
   }, [])
 
+  const handleClickAdminLogin = () => {
+    navigate('/login')
+  }
+
   return (
     <footer>
       <ul>
@@ -56,9 +63,7 @@ const Footer = () => {
           })
         ) : ''}
       </ul>
-      <a href="/">
-        <button>admin login</button>
-      </a>
+      <button onClick={handleClickAdminLogin}>admin login</button>
     </footer>
   )
 }
