@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Admin.css"
 
-import { getFirestore, query, where, onSnapshot, doc, updateDoc, collection, deleteDoc, arrayUnion } from "firebase/firestore";
+import { getFirestore, query, where, onSnapshot, doc, updateDoc, collection, arrayUnion } from "firebase/firestore";
 import { useSearchParams } from 'react-router-dom';
 import { app } from '../../utils/firebaseConfig';
 
@@ -101,6 +101,7 @@ const Admin = () => {
 
         links.splice(index, 1)
       }
+      return ''
     })
     
     const docRef = doc(db, 'users', userId)
@@ -110,8 +111,46 @@ const Admin = () => {
     })
   }
 
-  const toggleMoveLinkUp = async () => {
-    
+  const toggleMoveLinkUp = async (linkId) => {
+    let index;
+    links.map((link) => {
+      if (link.id === linkId) {
+        index = links.indexOf(link)
+      }
+      return ''
+    })
+    let index2 = index - 1
+
+    const temp = links[index]
+    links[index] = links[index2]
+    links[index2] = temp
+
+    const docRef = doc(db, 'users', userId)
+
+    await updateDoc(docRef, {
+      'links': links
+    })
+  }
+
+  const toggleMoveLinkDown = async (linkId) => {
+    let index;
+    links.map((link) => {
+      if (link.id === linkId) {
+        index = links.indexOf(link)
+      }
+      return ''
+    })
+    let index2 = index + 1
+
+    const temp = links[index]
+    links[index] = links[index2]
+    links[index2] = temp
+
+    const docRef = doc(db, 'users', userId)
+
+    await updateDoc(docRef,{
+      'links': links
+    })
   }
 
   return (
@@ -148,7 +187,7 @@ const Admin = () => {
           links.map((link) => {
             return (
               <li key={link.id}>
-                <AdminLink link={link} handleToggleVisible={handleToggleVisible} handleDeleteLink={handleDeleteLink}/>
+                <AdminLink link={link} handleToggleVisible={handleToggleVisible} handleDeleteLink={handleDeleteLink} toggleMoveLinkUp={toggleMoveLinkUp} toggleMoveLinkDown={toggleMoveLinkDown}/>
               </li>
             )
           })

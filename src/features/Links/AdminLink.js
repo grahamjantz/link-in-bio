@@ -2,18 +2,16 @@ import React from 'react'
 import "./AdminLink.css"
 
 import { FaWindowClose, FaEye, FaEyeSlash,FaChevronUp, FaChevronDown } from 'react-icons/fa'
-import { doc } from 'firebase/firestore'
-import { db } from '../Admin/Admin'
 
-const AdminLink = ({ link, handleToggleVisible, handleDeleteLink }) => {
+const AdminLink = ({ link, handleToggleVisible, handleDeleteLink, toggleMoveLinkUp, toggleMoveLinkDown }) => {
 
     
 
   return (
     <div className={`admin-link ${link.visible === false ? 'hidden' : ''}`}>
         <div>
-          <FaChevronUp />
-          <FaChevronDown />
+          <FaChevronUp onClick={() => toggleMoveLinkUp(link.id)}/>
+          <FaChevronDown onClick={() => toggleMoveLinkDown(link.id)}/>
         </div>
         <section>
             <button>{link.text}</button>
