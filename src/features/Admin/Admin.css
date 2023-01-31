@@ -94,3 +94,29 @@
 .admin li {
     width: 100%;
 }
+
+.edit-socials {
+    width: 100%;
+}
+
+.edit-socials ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.edit-socials li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-socials ul li svg {
+    color: white;
+}
+
+.edit-socials li > svg:last-of-type:hover {
+    cursor: pointer;
+}

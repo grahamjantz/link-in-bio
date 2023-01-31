@@ -5,7 +5,7 @@ import { getFirestore, query, where, onSnapshot, doc, updateDoc, collection, arr
 import { useSearchParams } from 'react-router-dom';
 import { app } from '../../utils/firebaseConfig';
 
-import { FaEdit, FaFacebook, FaInstagram, FaTwitter, FaYoutube} from 'react-icons/fa'
+import { FaEdit, FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import AdminLink from '../Links/AdminLink';
 import { generateId } from '../Links/Links';
@@ -36,36 +36,35 @@ const Admin = () => {
   const [addLinkText, setAddLinkText] = useState('')
   const [addLinkLink, setAddLinkLink] = useState('')
 
-  const [socialMediaLinks, setSocialMediaLinks] = useState([])
+  const [toggleEditSocials, setToggleEditSocials] = useState(false)
 
-  useEffect(() => {
-    setSocialMediaLinks([
-      {
-        icon: <FaFacebook />,
-        href: "/",
-        id: generateId(),
-        visible: true
-      },
-      {
-        icon: <FaInstagram />,
-        href: "/",
-        id: generateId(),
-        visible: true
-      },
-      {
-        icon: <FaTwitter />,
-        href: "/",
-        id: generateId(),
-        visible: true
-      },
-      {
-        icon: <FaYoutube />,
-        href: "/",
-        id: generateId(),
-        visible: true
-      },
-    ])
-  }, [])
+  const [socialMediaLinks, setSocialMediaLinks] = useState([
+    {
+      icon: <FaFacebook />,
+      href: "/",
+      id: 'facebook',
+      visible: true
+    },
+    {
+      icon: <FaInstagram />,
+      href: "/",
+      id: 'instagram',
+      visible: true
+    },
+    {
+      icon: <FaTwitter />,
+      href: "/",
+      id: 'twitter',
+      visible: true
+    },
+    {
+      icon: <FaYoutube />,
+      href: "/",
+      id: 'youtube',
+      visible: true
+    },
+  ])
+
 
   useEffect(() => {
     const q = query(collection(db, "users"), where("user_id", "==", userId));
@@ -73,6 +72,7 @@ const Admin = () => {
       querySnapshot.forEach((doc) => {
         setUserData(doc.data())
         setLinks(doc.data().links)
+        setSocialMediaLinks(doc.data().social_media_links)
       });
     });
 
@@ -81,8 +81,6 @@ const Admin = () => {
     }
   }, [userId])
 
-
-  // console.log(userData)
 
   const handleSubmitUpdateAnnouncement = async (e) => {
     e.preventDefault()
@@ -153,17 +151,19 @@ const Admin = () => {
       }
       return ''
     })
-    let index2 = index - 1
-
-    const temp = links[index]
-    links[index] = links[index2]
-    links[index2] = temp
-
-    const docRef = doc(db, 'users', userId)
-
-    await updateDoc(docRef, {
-      'links': links
-    })
+    if (index > 0 ) {
+      let index2 = index - 1
+  
+      const temp = links[index]
+      links[index] = links[index2]
+      links[index2] = temp
+  
+      const docRef = doc(db, 'users', userId)
+  
+      await updateDoc(docRef, {
+        'links': links
+      })
+    }
   }
 
   const toggleMoveLinkDown = async (linkId) => {
@@ -174,18 +174,61 @@ const Admin = () => {
       }
       return ''
     })
-    let index2 = index + 1
+    if (index < links.length - 1) {
+      let index2 = index + 1
+  
+      const temp = links[index]
+      links[index] = links[index2]
+      links[index2] = temp
+  
+      const docRef = doc(db, 'users', userId)
+  
+      await updateDoc(docRef,{
+        'links': links
+      })
+    }
+  }
+  
+  const displaySocialIcon = (icon) => {
+    if (icon === 'facebook') {
+      return (
+        <FaFacebook />
+      )
+    } else if (icon === 'instagram') {
+      return (
+        <FaInstagram />
+      )
+    } else if (icon === 'twitter') {
+      return (
+        <FaTwitter />
+      )
+    } else if (icon === 'youtube') {
+      return (
+        <FaYoutube />
+      )
+    }
+  }
 
-    const temp = links[index]
-    links[index] = links[index2]
-    links[index2] = temp
+  const handleToggleEditSocials = () => {
+    toggleEditSocials === false ? setToggleEditSocials(true) : setToggleEditSocials(false)
+  }
+
+  const handleToggleSocialVisible = async (linkId) => {
+    let temp = socialMediaLinks
+    temp.forEach((link) => {
+      if (link.id === linkId) {
+        link.visible === false ? link.visible = true : link.visible = false
+      }
+    })
 
     const docRef = doc(db, 'users', userId)
 
-    await updateDoc(docRef,{
-      'links': links
+    await updateDoc(docRef, {
+      'social_media_links': temp
     })
   }
+
+
 
   return (
     <div className='admin'>
@@ -235,7 +278,7 @@ const Admin = () => {
                 return (
                   <li key={link.id}>
                     <a href={link.href}>
-                      {link.icon}
+                      {displaySocialIcon(link.icon)}
                     </a>
                   </li>
                 )
@@ -244,7 +287,26 @@ const Admin = () => {
             })
           ) : ''}
         </ul>
-        <button>Edit Socials</button>
+        <button onClick={handleToggleEditSocials}>Edit Socials</button>
+        <div className='edit-socials'>
+        {toggleEditSocials === true ? (
+          socialMediaLinks !== [] ? (
+            <ul>
+              {socialMediaLinks.map((link) => {
+                return (
+                  <li key={link.id}>
+                    {displaySocialIcon(link.icon)}
+                    {link.visible === true ? 
+                      <FaEye onClick={() => handleToggleSocialVisible(link.id)}/> :
+                      <FaEyeSlash onClick={() => handleToggleSocialVisible(link.id)}/>
+                    }
+                  </li>
+                )
+              })}
+            </ul>
+          ) : ''
+        ) : ''}
+        </div>
       </footer>
     </div>
   )

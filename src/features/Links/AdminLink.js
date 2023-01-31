@@ -17,7 +17,10 @@ const AdminLink = ({ link, handleToggleVisible, handleDeleteLink, toggleMoveLink
             {link.text}
         </section>
         <div>
-          {link.visible === true ? <FaEye onClick={() => handleToggleVisible(link.id)}/> : <FaEyeSlash onClick={() => handleToggleVisible(link.id)}/>}
+          {link.visible === true ? 
+            (<FaEye onClick={() => handleToggleVisible(link.id)}/>) : 
+            (<FaEyeSlash onClick={() => handleToggleVisible(link.id)}/>)
+          }
           <FaWindowClose onClick={() => handleDeleteLink(link.id)}/>
         </div>
     </div>
