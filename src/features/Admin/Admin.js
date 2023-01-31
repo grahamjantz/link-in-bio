@@ -5,9 +5,10 @@ import { getFirestore, query, where, onSnapshot, doc, updateDoc, collection, arr
 import { useSearchParams } from 'react-router-dom';
 import { app } from '../../utils/firebaseConfig';
 
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit, FaFacebook, FaInstagram, FaTwitter, FaYoutube} from 'react-icons/fa'
 
 import AdminLink from '../Links/AdminLink';
+import { generateId } from '../Links/Links';
 
 const generateLinkId = () => {
   let id = ''
@@ -35,6 +36,37 @@ const Admin = () => {
   const [addLinkText, setAddLinkText] = useState('')
   const [addLinkLink, setAddLinkLink] = useState('')
 
+  const [socialMediaLinks, setSocialMediaLinks] = useState([])
+
+  useEffect(() => {
+    setSocialMediaLinks([
+      {
+        icon: <FaFacebook />,
+        href: "/",
+        id: generateId(),
+        visible: true
+      },
+      {
+        icon: <FaInstagram />,
+        href: "/",
+        id: generateId(),
+        visible: true
+      },
+      {
+        icon: <FaTwitter />,
+        href: "/",
+        id: generateId(),
+        visible: true
+      },
+      {
+        icon: <FaYoutube />,
+        href: "/",
+        id: generateId(),
+        visible: true
+      },
+    ])
+  }, [])
+
   useEffect(() => {
     const q = query(collection(db, "users"), where("user_id", "==", userId));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -43,10 +75,12 @@ const Admin = () => {
         setLinks(doc.data().links)
       });
     });
+
     return () => {
       unsubscribe()
     }
   }, [userId])
+
 
   // console.log(userData)
 
@@ -156,7 +190,7 @@ const Admin = () => {
   return (
     <div className='admin'>
       <header>
-        {/* <img src={imgLink} alt='hero'/> */}
+        <img src='https://firebasestorage.googleapis.com/v0/b/link-in-bio-ce121.appspot.com/o/kOcoyJuA2igqGu1CWycugSOxhPi2%2FHero_Image.jpeg?alt=media&token=d8a13ed1-a4bf-470e-b36c-84befd802859' alt='hero'/>
         <section>
           <h1>{userData.name}</h1>
           <p>{userData.announcement} {<FaEdit onClick={() => setToggleEditAnnouncment(true)}/>}</p>
@@ -182,7 +216,7 @@ const Admin = () => {
             </form>
           ) : ''}
       </div>
-      <ul>
+      <ul className='links'>
         {links !== [] ? (
           links.map((link) => {
             return (
@@ -193,6 +227,25 @@ const Admin = () => {
           })
         ) : ''}
       </ul>
+      <footer>
+        <ul>
+          {socialMediaLinks !== [] ? (
+            socialMediaLinks.map((link) => {
+              if (link.visible === true) {
+                return (
+                  <li key={link.id}>
+                    <a href={link.href}>
+                      {link.icon}
+                    </a>
+                  </li>
+                )
+              }
+              return ''
+            })
+          ) : ''}
+        </ul>
+        <button>Edit Socials</button>
+      </footer>
     </div>
   )
 }

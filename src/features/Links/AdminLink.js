@@ -14,7 +14,7 @@ const AdminLink = ({ link, handleToggleVisible, handleDeleteLink, toggleMoveLink
           <FaChevronDown onClick={() => toggleMoveLinkDown(link.id)}/>
         </div>
         <section>
-            <button>{link.text}</button>
+            {link.text}
         </section>
         <div>
           {link.visible === true ? <FaEye onClick={() => handleToggleVisible(link.id)}/> : <FaEyeSlash onClick={() => handleToggleVisible(link.id)}/>}

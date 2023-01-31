@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import "./Header.css"
 
 import hero from '../../images/Hero_Image.jpeg'
+import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { db } from '../Admin/Admin'
 
 const Header = () => {
 
@@ -12,7 +14,20 @@ const Header = () => {
   useEffect(() => {
       setName('Graham')
       setImgLink(hero)
-      setAnnouncement('Announcement')
+  }, [])
+
+  const userId = 'kOcoyJuA2igqGu1CWycugSOxhPi2'
+
+  useEffect(() => {
+    const q = query(collection(db, "users"), where("user_id", "==", userId));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        setAnnouncement(doc.data().announcement)
+      });
+    });
+    return () => {
+      unsubscribe()
+    }
   }, [])
 
   return (
