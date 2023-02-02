@@ -117,6 +117,11 @@
     color: white;
 }
 
-.edit-socials li > svg:last-of-type:hover {
+.edit-socials li svg:hover {
     cursor: pointer;
+}
+
+.edit-socials li > div {
+    display: flex;
+    gap: 1rem;
 }
