@@ -110,6 +110,7 @@
 .edit-socials li {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
@@ -121,7 +122,29 @@
     cursor: pointer;
 }
 
-.edit-socials li > div {
+.edit-socials section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-socials li section > div {
     display: flex;
     gap: 1rem;
+}
+
+.edit-socials form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.edit-socials label {
+    font-size: 2rem;
+}
+
+.edit-socials form > div {
+    display: flex;
+    gap: 5px;
 }

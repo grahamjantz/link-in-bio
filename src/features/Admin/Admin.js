@@ -5,12 +5,13 @@ import { getFirestore, query, where, onSnapshot, doc, updateDoc, collection } fr
 import { useSearchParams } from 'react-router-dom';
 import { app } from '../../utils/firebaseConfig';
 
-import { FaEdit, FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addUserData, selectUserData } from './AdminSlice';
 import AdminHeader from './AdminHeader/AdminHeader';
 import AdminLinksSection from './AdminLinksSection/AdminLinksSection';
+import AdminFooter from './AdminFooter/AdminFooter';
 
 
 
@@ -19,14 +20,15 @@ export const db = getFirestore(app)
 const Admin = () => {
 
   const userData = useSelector(selectUserData)
-  console.log(userData)
 
   const dispatch = useDispatch()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const userId = searchParams.get('user_id')
 
-  const [toggleEditSocials, setToggleEditSocials] = useState(false)
+  const [links, setLinks] = useState([])
+
+  
 
   const [socialMediaLinks, setSocialMediaLinks] = useState([
     {
@@ -62,6 +64,7 @@ const Admin = () => {
       querySnapshot.forEach((doc) => {
         dispatch(addUserData(doc.data()))
         setSocialMediaLinks(doc.data().social_media_links)
+        setLinks(doc.data().links)
       });
     });
 
@@ -70,38 +73,86 @@ const Admin = () => {
     }
   }, [userId, dispatch])
 
-  const updateDbLinks = async (links) => {
+  const handleToggleVisible = async (linkId) => {
+    const temp = links
+    temp.forEach((link) => {
+      if (link.id === linkId) {
+        link.visible === true ? link.visible = false : link.visible = true
+      }
+    })
+
     const docRef = doc(db, 'users', userId)
-    await updateDoc(docRef, {
-      'links': links
-    }) 
+    await updateDoc(docRef, { 
+      'links': temp
+    })
   }
 
-  
-  
-  const displaySocialIcon = (icon) => {
-    if (icon === 'facebook') {
-      return (
-        <FaFacebook />
-      )
-    } else if (icon === 'instagram') {
-      return (
-        <FaInstagram />
-      )
-    } else if (icon === 'twitter') {
-      return (
-        <FaTwitter />
-      )
-    } else if (icon === 'youtube') {
-      return (
-        <FaYoutube />
-      )
+  const handleDeleteLink = async (linkId) => {
+    const temp = links
+    temp.map((link) => {
+        if (link.id === linkId) {
+          const index = temp.indexOf(link)
+
+          temp.splice(index, 1)
+        }
+        return ''
+    })
+    
+    const docRef = doc(db, 'users', userId)
+
+    await updateDoc(docRef, {
+        'links': temp
+    })
+  }
+
+  const toggleMoveLinkUp = async (linkId) => {
+    let index;
+    const tempArr = links
+    tempArr.map((link) => {
+        if (link.id === linkId) {
+          index = tempArr.indexOf(link)
+        }
+        return ''
+    })
+    if (index > 0 ) {
+        let index2 = index - 1
+    
+        const temp = tempArr[index]
+        tempArr[index] = tempArr[index2]
+        tempArr[index2] = temp
+    
+        const docRef = doc(db, 'users', userId)
+    
+        await updateDoc(docRef, {
+        'links': tempArr
+        })
     }
   }
 
-  const handleToggleEditSocials = () => {
-    toggleEditSocials === false ? setToggleEditSocials(true) : setToggleEditSocials(false)
+  const toggleMoveLinkDown = async (linkId) => {
+    let index;
+    const tempArr = links
+    tempArr.map((link) => {
+        if (link.id === linkId) {
+          index = tempArr.indexOf(link)
+        }
+        return ''
+    })
+    if (index < tempArr.length - 1) {
+        let index2 = index + 1
+    
+        const temp = tempArr[index]
+        tempArr[index] = tempArr[index2]
+        tempArr[index2] = temp
+    
+        const docRef = doc(db, 'users', userId)
+    
+        await updateDoc(docRef,{
+        'links': tempArr
+        })
+    }
   }
+
 
   const handleToggleSocialVisible = async (linkId) => {
     let temp = socialMediaLinks
@@ -118,60 +169,38 @@ const Admin = () => {
     })
   }
 
-  const handleEditSocialLink = async (linkId, url) => {
+  const handleEditSocialLink = async (e, linkId, url) => {
+    e.preventDefault()
+
     let temp = socialMediaLinks
     temp.forEach((link) => {
       if (link.id === linkId) {
         link.href = url
       }
     })
+    
+    const docRef = doc(db, 'users', userId)
+
+    await updateDoc(docRef, {
+      'social_media_links': temp
+    })
   }
 
   return (
     <div className='admin'>
       <AdminHeader userData={userData} userId={userId}/>
-      <AdminLinksSection userData={userData} updateDbLinks={updateDbLinks}/>
-      <footer>
-        <ul>
-          {socialMediaLinks !== [] ? (
-            socialMediaLinks.map((link) => {
-              if (link.visible === true) {
-                return (
-                  <li key={link.id}>
-                    <a href={link.href}>
-                      {displaySocialIcon(link.icon)}
-                    </a>
-                  </li>
-                )
-              }
-              return ''
-            })
-          ) : ''}
-        </ul>
-        <button onClick={handleToggleEditSocials}>Edit Socials</button>
-        <div className='edit-socials'>
-        {toggleEditSocials === true ? (
-          socialMediaLinks !== [] ? (
-            <ul>
-              {socialMediaLinks.map((link) => {
-                return (
-                  <li key={link.id}>
-                    {displaySocialIcon(link.icon)}
-                    <div>
-                      {link.visible === true ? 
-                        <FaEye onClick={() => handleToggleSocialVisible(link.id)}/> :
-                        <FaEyeSlash onClick={() => handleToggleSocialVisible(link.id)}/>
-                      }
-                      <FaEdit onClick={() => handleEditSocialLink(link.id)}/>
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
-          ) : ''
-        ) : ''}
-        </div>
-      </footer>
+      <AdminLinksSection 
+        userData={userData} 
+        handleToggleVisible={handleToggleVisible}
+        handleDeleteLink={handleDeleteLink}
+        toggleMoveLinkUp={toggleMoveLinkUp}
+        toggleMoveLinkDown={toggleMoveLinkDown}
+      />
+      <AdminFooter 
+        socialMediaLinks={socialMediaLinks}
+        handleToggleSocialVisible={handleToggleSocialVisible}
+        handleEditSocialLink={handleEditSocialLink}
+      />
     </div>
   )
 }
