@@ -1,10 +1,9 @@
 footer {
     width: 90%;
-    height: 15%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    gap: 1rem;
 }
 
 footer ul {
@@ -15,6 +14,11 @@ footer ul {
     justify-content: space-around;
     align-items: center;
     font-size: 3rem;
+    flex-wrap: wrap;
+}
+
+footer ul li {
+    width: 20%;
 }
 
 footer ul li a {

@@ -153,6 +153,51 @@ const Admin = () => {
     }
   }
 
+  const toggleMoveSocialLinkUp = async (linkId) => {
+    let index;
+    const tempArr = socialMediaLinks;
+    tempArr.forEach((link) => {
+      if (link.id === linkId) {
+        index = tempArr.indexOf(link)
+      }
+    })
+    if (index > 0) {
+      let index2 = index - 1
+
+      const temp = tempArr[index]
+      tempArr[index] = tempArr[index2]
+      tempArr[index2] = temp
+
+      const docRef = doc(db, 'users', userId)
+      await updateDoc(docRef, {
+        'social_media_links': tempArr
+      })
+    }
+  }
+
+  const toggleMoveSocialLinkDown = async (linkId) => {
+    let index;
+    const tempArr = socialMediaLinks;
+    tempArr.forEach((link) => {
+      if (link.id === linkId) {
+        index = tempArr.indexOf(link)
+      }
+    })
+
+    if (index < tempArr.length - 1) {
+      let index2 = index + 1
+
+      const temp = tempArr[index]
+      tempArr[index] = tempArr[index2]
+      tempArr[index2] = temp
+
+      const docRef = doc(db, 'users', userId)
+      await updateDoc(docRef, {
+        'social_media_links': tempArr
+      })
+    }
+  }
+
 
   const handleToggleSocialVisible = async (linkId) => {
     let temp = socialMediaLinks
@@ -200,6 +245,8 @@ const Admin = () => {
         socialMediaLinks={socialMediaLinks}
         handleToggleSocialVisible={handleToggleSocialVisible}
         handleEditSocialLink={handleEditSocialLink}
+        toggleMoveSocialLinkUp={toggleMoveSocialLinkUp}
+        toggleMoveSocialLinkDown={toggleMoveSocialLinkDown}
       />
     </div>
   )

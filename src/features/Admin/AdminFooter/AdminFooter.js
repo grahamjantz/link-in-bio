@@ -1,36 +1,45 @@
 import React, { useState } from 'react'
 
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import { FaDiscord, FaFacebook, FaInstagram, FaLinkedinIn, FaPinterest, FaReddit, FaSnapchatGhost, FaTiktok, FaTwitch, FaTwitter, FaYoutube } from 'react-icons/fa'
 import AdminSocialFooterLink from './AdminSocialFooterLink'
 
 
-const AdminFooter = ({ socialMediaLinks, handleToggleSocialVisible, handleEditSocialLink }) => {
+const AdminFooter = ({ socialMediaLinks, handleToggleSocialVisible, handleEditSocialLink, toggleMoveSocialLinkUp, toggleMoveSocialLinkDown }) => {
 
-    const [toggleEditSocials, setToggleEditSocials] = useState(false)
+  const [toggleEditSocials, setToggleEditSocials] = useState(false)
 
-    const displaySocialIcon = (icon) => {
-        if (icon === 'facebook') {
-          return (
-            <FaFacebook />
-          )
-        } else if (icon === 'instagram') {
-          return (
-            <FaInstagram />
-          )
-        } else if (icon === 'twitter') {
-          return (
-            <FaTwitter />
-          )
-        } else if (icon === 'youtube') {
-          return (
-            <FaYoutube />
-          )
-        }
+  const displaySocialIcon = (icon) => {
+      switch (icon) {
+        case 'facebook':
+          return <FaFacebook />
+        case 'instagram':
+          return <FaInstagram />
+        case 'twitter':
+          return <FaTwitter />
+        case 'youtube':
+          return <FaYoutube />
+        case 'tiktok':
+          return <FaTiktok /> 
+        case 'pinterest':
+          return <FaPinterest />
+        case 'snapchat':
+          return <FaSnapchatGhost />
+        case 'reddit':
+          return <FaReddit />
+        case 'linkedin':
+          return <FaLinkedinIn />
+        case 'discord':
+          return <FaDiscord />
+        case 'twitch':
+          return <FaTwitch />
+        default:
+          return ''
       }
+    }
 
-      const handleToggleEditSocials = () => {
-        toggleEditSocials === false ? setToggleEditSocials(true) : setToggleEditSocials(false)
-      }
+    const handleToggleEditSocials = () => {
+      toggleEditSocials === false ? setToggleEditSocials(true) : setToggleEditSocials(false)
+    }
 
   return (
     <footer>
@@ -63,6 +72,8 @@ const AdminFooter = ({ socialMediaLinks, handleToggleSocialVisible, handleEditSo
                         displaySocialIcon={displaySocialIcon}
                         handleToggleSocialVisible={handleToggleSocialVisible}
                         handleEditSocialLink={handleEditSocialLink}
+                        toggleMoveSocialLinkUp={toggleMoveSocialLinkUp}
+                        toggleMoveSocialLinkDown={toggleMoveSocialLinkDown}
                     />
                 )
               })}

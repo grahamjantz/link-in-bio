@@ -12,7 +12,8 @@ const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState({})
+    const [userData, setUserData] = useState({})
+    const [toggleErr, setToggleErr] = useState(false)
 
     const navigate = useNavigate()
 
@@ -23,7 +24,7 @@ const Login = () => {
 
     useEffect(() => {
         onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+            setUserData(currentUser);
         });
     }, [])
 
@@ -35,31 +36,30 @@ const Login = () => {
                 email,
                 password
             )
+            navigate(`/admin?user_id=${userData.uid}`)
         } catch (error) {
             console.log(error.message)
+            setToggleErr(true)
         }
         setEmail('')
         setPassword('')
-        navigate(`/admin?user_id=${user.uid}`)
     }
-
-    // const handleSignUp = () => {
-    //     navigate('/sign-up')
-    // }
 
   return (
     <div className='login'>
-        {/* <div id="firebaseui-auth-container"></div> */}
-        {/* <div id="loader">Loading...</div> */}
         <form onSubmit={login}>
             <h3>Login</h3>
+            {toggleErr === true ? (
+                <div className='login-error'>
+                    <p>Error! Invalid Login! Check email/password and try again.</p>
+                </div>
+            ) : ''}
             <label htmlFor='email'>Email:</label>
             <input type='email' onChange={(e) => setEmail(e.target.value)} value={email} placeholder='email' name='email'/>
             <label htmlFor='password'>Password:</label>
             <input type='password' onChange={(e) => setPassword(e.target.value)} value={password} placeholder='password' name='password'/>
             <input type='submit' value='Login'/>
         </form>
-        {/* <button onClick={handleSignUp}>Sign Up</button> */}
     </div>
   )
 }

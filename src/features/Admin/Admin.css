@@ -87,8 +87,17 @@
     gap: 2rem;
 }
 
+.links > li {
+    width: 100%;
+}
+
 .admin > footer > ul {
     flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.admin > footer > ul > li {
+    width: 20% !important;
 }
 
 .admin li {
@@ -110,8 +119,11 @@
 .edit-socials li {
     width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
+}
+
+.edit-socials li div:first-of-type {
+    font-size: 2.5rem;
 }
 
 .edit-socials ul li svg {
@@ -126,6 +138,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .edit-socials li section > div {
